@@ -84,8 +84,8 @@ class EmployeeController {
 
   @DeleteMapping("/employees/{id}")
   ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-	  if ( repository.findById(id)
-			  .orElseThrow(() -> new EmployeeNotFoundException(id)) != null) {
+	  if ( null != repository.findById(id)
+			  .orElseThrow(() -> new EmployeeNotFoundException(id))) {
 		  repository.deleteById(id);
 	  }
 	  return ResponseEntity.noContent().build();

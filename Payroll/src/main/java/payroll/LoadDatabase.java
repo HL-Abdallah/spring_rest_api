@@ -16,16 +16,30 @@ class LoadDatabase {
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
   @Bean
-  CommandLineRunner initDatabase(EmployeeRepository repository) {
-
+  CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
+	  
 	Faker faker = new Faker(new Locale("fr"));
+	
     return args -> {
-    	for (int i = 0; i < 3 ; i++) {
-    		log.info("Preloading " + repository.save(
+    	for (int i = 0; i < 5 ; i++) {
+    		log.info("Saving Employee : " + employeeRepository.save(
     				new Employee(
     						faker.name().firstName(),
     						faker.name().lastName(),
     						faker.job().position()
+    						)));
+		}
+    	for (int i = 0; i < 20; i++) {
+    		Status status;  
+    		if ( i % 3 == 0 ) {
+    			status = Status.COMPLETED;
+    		} else {
+    			status = Status.IN_PROGRESS;
+    		}
+    		log.info("Saving Order : " + orderRepository.save(
+    				new Order(
+    						faker.food().dish(),
+    						status
     						)));
 		}
       
